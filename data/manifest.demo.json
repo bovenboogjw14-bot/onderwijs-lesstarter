@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.3",
+  "schemaVersion": "1.4",
   "demo": true,
   "subjects": [
     {
@@ -28,6 +28,33 @@
               "pageTo": 12
             }
           ],
+          "lessonWork": {
+            "title": "Uitwerking lesbrief",
+            "blocks": [
+              {
+                "id": "task",
+                "title": "Aan het werk",
+                "items": [
+                  "Technisch prototype — hier komt later welke vragen of onderdelen van de lesbrief je maakt."
+                ]
+              },
+              {
+                "id": "support",
+                "title": "Gebruik",
+                "items": [
+                  "Technisch prototype — hier komen later de bron, boekpagina's en eventuele ondersteuning voor deze les."
+                ]
+              },
+              {
+                "id": "ready",
+                "title": "Klaar?",
+                "items": [
+                  "Technisch prototype — hier komt later de controle of volgende stap voordat de praktijk begint."
+                ]
+              }
+            ],
+            "footer": "TECHNISCH PROTOTYPE — GEEN DEFINITIEVE LESINHOUD"
+          },
           "gammaEmbedUrl": "https://gamma.app/embed/nraavysajolg242",
           "presentations": {
             "theory": {
