@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.2",
+  "schemaVersion": "1.3",
   "demo": true,
   "subjects": [
     {
@@ -48,6 +48,33 @@
                 "pdfUrl": "./assets/demo/werktekeningen/demo-werktekening-multipage.pdf"
               }
             ]
+          },
+          "closeout": {
+            "title": "Les afsluiten",
+            "blocks": [
+              {
+                "id": "cleanup",
+                "title": "Opruimen",
+                "items": [
+                  "Technisch prototype — hier komen later de opruimstappen voor deze les."
+                ]
+              },
+              {
+                "id": "checkout",
+                "title": "Controle / checkout",
+                "items": [
+                  "Technisch prototype — hier komen later de controlepunten voor deze les."
+                ]
+              },
+              {
+                "id": "extra",
+                "title": "Extra afsluiting",
+                "items": [
+                  "Technisch prototype — dit blok verschijnt alleen als de les extra afsluitstappen nodig heeft."
+                ]
+              }
+            ],
+            "footer": "TECHNISCH PROTOTYPE — GEEN DEFINITIEVE LESINHOUD"
           }
         }
       ]
