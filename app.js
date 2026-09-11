@@ -2,7 +2,8 @@ const params = new URLSearchParams(window.location.search);
 const demoMode = params.get('demo') === '1';
 const viewMode = params.get('view') || 'selector';
 const manifestPath = demoMode ? './data/manifest.demo.json' : './data/manifest.json';
-const storageKey = 'onderwijs-lesstarter-selection-v1';
+const storageKey = 'onderwijs-lesstarter-active-v2';
+const legacyStorageKey = 'onderwijs-lesstarter-selection-v1';
 
 const els = {
   subject: document.querySelector('#subjectSelect'),
@@ -22,6 +23,7 @@ const els = {
 };
 
 let manifest = { subjects: [] };
+let activeSelection = {};
 
 function setStatus(message) { els.status.textContent = message || ''; }
 function getSubjectById(subjectId) { return manifest.subjects.find(s => s.id === subjectId) || null; }
@@ -67,7 +69,7 @@ function renderSources(lesson) {
     els.sourceRanges.appendChild(p);
   });
 }
-function renderLessons(subject) {
+function renderLessons(subject, selectedLessonId = '') {
   els.lesson.replaceChildren();
   els.lesson.appendChild(option('', subject ? 'Kies een les…' : 'Kies eerst een vak…'));
   const lessons = subject?.lessons || [];
@@ -76,21 +78,57 @@ function renderLessons(subject) {
     els.lesson.appendChild(option(lesson.id, label));
   });
   els.lesson.disabled = lessons.length === 0;
-  els.lesson.value = '';
-  els.start.disabled = true;
-  renderSources(null);
-  setStatus(subject && lessons.length === 0 ? 'Voor dit vak zijn nog geen beschikbare lessen gepubliceerd.' : '');
+  els.lesson.value = lessons.some(l => l.id === selectedLessonId) ? selectedLessonId : '';
+  renderSources(getLesson());
+  refreshStartState();
 }
-function clearSelection() {
-  localStorage.removeItem(storageKey);
+function clearActiveSelection() {
+  sessionStorage.removeItem(storageKey);
+  activeSelection = {};
 }
-function saveSelection(subject, lesson) {
+function saveActiveSelection(subject, lesson) {
   if (!subject || !lesson) return;
-  localStorage.setItem(storageKey, JSON.stringify({ subjectId: subject.id, lessonId: lesson.id }));
+  activeSelection = { subjectId: subject.id, lessonId: lesson.id };
+  sessionStorage.setItem(storageKey, JSON.stringify(activeSelection));
 }
-function loadSavedSelection() {
-  try { return JSON.parse(localStorage.getItem(storageKey) || '{}'); }
+function loadActiveSelection() {
+  try { return JSON.parse(sessionStorage.getItem(storageKey) || '{}'); }
   catch { return {}; }
+}
+function currentChoiceIsActive() {
+  return Boolean(
+    els.subject.value &&
+    els.lesson.value &&
+    els.subject.value === activeSelection.subjectId &&
+    els.lesson.value === activeSelection.lessonId
+  );
+}
+function refreshStartState() {
+  const lesson = getLesson();
+  if (!lesson) {
+    els.start.disabled = true;
+    els.start.textContent = 'Start les';
+    if (getSubject() && (getSubject().lessons || []).length === 0) {
+      setStatus('Voor dit vak zijn nog geen beschikbare lessen gepubliceerd.');
+    } else {
+      setStatus('');
+    }
+    return;
+  }
+
+  if (currentChoiceIsActive()) {
+    els.start.disabled = true;
+    els.start.textContent = 'Les gestart ✓';
+    setStatus('Deze les is actief. Ga naar dia 2 voor de theorie.');
+  } else {
+    els.start.disabled = false;
+    els.start.textContent = 'Start les';
+    setStatus('Klik op Start les om deze keuze actief te maken.');
+  }
+}
+function invalidateActiveIfChoiceChanged() {
+  if (!activeSelection.subjectId || !activeSelection.lessonId) return;
+  if (!currentChoiceIsActive()) clearActiveSelection();
 }
 function allowedGammaUrl(value) {
   try {
@@ -105,16 +143,12 @@ function showSelectionRequired() {
   els.messageText.textContent = 'Kies vak en les op dia 1.';
   els.messageView.hidden = false;
 }
-function showLesson(subject, lesson, save = true) {
+function showLesson(subject, lesson) {
   const embedUrl = lesson.gammaEmbedUrl || lesson.launchUrl;
   if (!embedUrl || !allowedGammaUrl(embedUrl)) {
-    els.messageView.hidden = true;
-    els.selectorView.hidden = false;
-    els.lessonView.hidden = true;
-    setStatus('Deze les heeft geen geldige Gamma-presentatie gekoppeld.');
+    showSelectionRequired();
     return false;
   }
-  if (save) saveSelection(subject, lesson);
   els.activeLessonTitle.textContent = lesson.title ? `${lesson.label || lesson.id} — ${lesson.title}` : (lesson.label || lesson.id);
   els.activeSubjectTitle.textContent = subject.name;
   els.lessonFrame.src = embedUrl;
@@ -123,17 +157,32 @@ function showLesson(subject, lesson, save = true) {
   els.lessonView.hidden = false;
   return true;
 }
-function openSavedLessonView() {
-  const saved = loadSavedSelection();
-  const { subject, lesson } = getLessonByIds(saved.subjectId, saved.lessonId);
+function openActiveLessonView() {
+  activeSelection = loadActiveSelection();
+  const { subject, lesson } = getLessonByIds(activeSelection.subjectId, activeSelection.lessonId);
   if (!subject || !lesson) {
     showSelectionRequired();
     return;
   }
-  showLesson(subject, lesson, false);
+  showLesson(subject, lesson);
+}
+function restoreSelectorFromActive() {
+  activeSelection = loadActiveSelection();
+  const { subject, lesson } = getLessonByIds(activeSelection.subjectId, activeSelection.lessonId);
+  if (!subject || !lesson) {
+    activeSelection = {};
+    els.subject.value = '';
+    renderLessons(null);
+    return;
+  }
+  els.subject.value = subject.id;
+  renderLessons(subject, lesson.id);
+  renderSources(lesson);
+  refreshStartState();
 }
 async function init() {
   try {
+    localStorage.removeItem(legacyStorageKey);
     const response = await fetch(manifestPath, { cache: 'no-store', credentials: 'same-origin' });
     if (!response.ok) throw new Error(`manifest ${response.status}`);
     manifest = await response.json();
@@ -143,45 +192,47 @@ async function init() {
 
     if (viewMode === 'lesson') {
       els.back.hidden = true;
-      openSavedLessonView();
+      openActiveLessonView();
       return;
     }
 
-    clearSelection();
     els.messageView.hidden = true;
     els.selectorView.hidden = false;
-    els.subject.value = '';
-    renderLessons(null);
-    if (demoMode) setStatus('DEMOMODUS — deze gegevens zijn uitsluitend voor technische test.');
+    restoreSelectorFromActive();
+    if (demoMode && !activeSelection.subjectId) {
+      setStatus('DEMOMODUS — kies vak en les en klik daarna op Start les.');
+    }
   } catch (error) {
     console.error(error);
     setStatus('Lesstarter kon het lesmanifest niet laden.');
   }
 }
 els.subject.addEventListener('change', () => {
-  clearSelection();
+  invalidateActiveIfChoiceChanged();
   renderLessons(getSubject());
 });
 els.lesson.addEventListener('change', () => {
-  const subject = getSubject();
-  const lesson = getLesson();
-  renderSources(lesson);
-  els.start.disabled = !lesson;
-  if (lesson) saveSelection(subject, lesson);
-  else clearSelection();
+  invalidateActiveIfChoiceChanged();
+  renderSources(getLesson());
+  refreshStartState();
 });
 els.start.addEventListener('click', () => {
   const subject = getSubject();
   const lesson = getLesson();
-  if (subject && lesson) showLesson(subject, lesson);
+  if (!subject || !lesson) return;
+  saveActiveSelection(subject, lesson);
+  refreshStartState();
 });
 els.back.addEventListener('click', () => {
   els.lessonFrame.src = 'about:blank';
   els.lessonView.hidden = true;
   els.messageView.hidden = true;
   els.selectorView.hidden = false;
+  restoreSelectorFromActive();
 });
 window.addEventListener('storage', event => {
-  if (event.key === storageKey && viewMode === 'lesson') openSavedLessonView();
+  if (event.storageArea === sessionStorage && event.key === storageKey && viewMode === 'lesson') {
+    openActiveLessonView();
+  }
 });
 init();
