@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0",
+  "demo": true,
+  "subjects": [
+    {
+      "id": "demo-vak",
+      "name": "Demo-vak",
+      "lessons": [
+        {
+          "id": "demo-les-01",
+          "label": "Les 01",
+          "title": "Technische demonstratie",
+          "sourceRanges": [
+            {
+              "source": "Demo-bron A",
+              "chapter": "A",
+              "paragraphFrom": "A.1",
+              "paragraphTo": "A.3",
+              "pageFrom": 1,
+              "pageTo": 5
+            },
+            {
+              "source": "Demo-bron B",
+              "chapter": "B",
+              "paragraphFrom": "B.2",
+              "paragraphTo": "B.2",
+              "pageFrom": 10,
+              "pageTo": 12
+            }
+          ],
+          "gammaEmbedUrl": "https://gamma.app/embed/nraavysajolg242"
+        }
+      ]
+    }
+  ]
+}
