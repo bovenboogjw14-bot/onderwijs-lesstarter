@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "demo": true,
   "subjects": [
     {
@@ -28,7 +28,17 @@
               "pageTo": 12
             }
           ],
-          "gammaEmbedUrl": "https://gamma.app/embed/nraavysajolg242"
+          "gammaEmbedUrl": "https://gamma.app/embed/nraavysajolg242",
+          "presentations": {
+            "theory": {
+              "provider": "gamma",
+              "embedUrl": "https://gamma.app/embed/nraavysajolg242"
+            },
+            "practiceTeacher": {
+              "provider": "gamma",
+              "embedUrl": "https://gamma.app/embed/7f0bupjdi38lte6"
+            }
+          }
         }
       ]
     }
