@@ -1,6 +1,7 @@
 const params = new URLSearchParams(window.location.search);
 const demoMode = params.get('demo') === '1';
-const viewMode = params.get('view') || 'selector';
+const rawView = params.get('view') || 'selector';
+const viewMode = rawView === 'lesson' ? 'theory' : rawView;
 const manifestPath = demoMode ? './data/manifest.demo.json' : './data/manifest.json';
 const storageKey = 'onderwijs-lesstarter-active-v2';
 const legacyStorageKey = 'onderwijs-lesstarter-selection-v1';
@@ -119,7 +120,7 @@ function refreshStartState() {
   if (currentChoiceIsActive()) {
     els.start.disabled = true;
     els.start.textContent = 'Les gestart ✓';
-    setStatus('Deze les is actief. Ga naar dia 2 voor de theorie.');
+    setStatus('Deze les is actief. Ga naar dia 2 voor theorie of dia 3 voor praktijk.');
   } else {
     els.start.disabled = false;
     els.start.textContent = 'Start les';
@@ -137,34 +138,53 @@ function allowedGammaUrl(value) {
     return url.protocol === 'https:' && (host === 'gamma.app' || host.endsWith('.gamma.app'));
   } catch { return false; }
 }
-function showSelectionRequired() {
+function showMessage(message) {
   els.selectorView.hidden = true;
   els.lessonView.hidden = true;
-  els.messageText.textContent = 'Kies vak en les op dia 1.';
+  els.messageText.textContent = message;
   els.messageView.hidden = false;
 }
-function showLesson(subject, lesson) {
-  const embedUrl = lesson.gammaEmbedUrl || lesson.launchUrl;
+function showSelectionRequired() {
+  showMessage('Kies vak en les op dia 1.');
+}
+function presentationForView(lesson, view) {
+  if (view === 'practice') {
+    return lesson?.presentations?.practiceTeacher || null;
+  }
+  if (view === 'theory') {
+    if (lesson?.presentations?.theory) return lesson.presentations.theory;
+    const legacyUrl = lesson?.gammaEmbedUrl || lesson?.launchUrl;
+    return legacyUrl ? { provider: 'gamma', embedUrl: legacyUrl } : null;
+  }
+  return null;
+}
+function missingPresentationMessage(view) {
+  if (view === 'practice') return 'Voor deze les is nog geen praktijkpresentatie gekoppeld.';
+  return 'Voor deze les is nog geen theoriepresentatie gekoppeld.';
+}
+function showPresentation(subject, lesson, view) {
+  const presentation = presentationForView(lesson, view);
+  const embedUrl = presentation?.embedUrl || presentation?.url;
   if (!embedUrl || !allowedGammaUrl(embedUrl)) {
-    showSelectionRequired();
+    showMessage(missingPresentationMessage(view));
     return false;
   }
   els.activeLessonTitle.textContent = lesson.title ? `${lesson.label || lesson.id} — ${lesson.title}` : (lesson.label || lesson.id);
-  els.activeSubjectTitle.textContent = subject.name;
+  els.activeSubjectTitle.textContent = view === 'practice' ? `${subject.name} · Praktijk` : `${subject.name} · Theorie`;
   els.lessonFrame.src = embedUrl;
   els.messageView.hidden = true;
   els.selectorView.hidden = true;
   els.lessonView.hidden = false;
   return true;
 }
-function openActiveLessonView() {
+function openActivePresentationView() {
   activeSelection = loadActiveSelection();
   const { subject, lesson } = getLessonByIds(activeSelection.subjectId, activeSelection.lessonId);
   if (!subject || !lesson) {
     showSelectionRequired();
     return;
   }
-  showLesson(subject, lesson);
+  showPresentation(subject, lesson, viewMode);
 }
 function restoreSelectorFromActive() {
   activeSelection = loadActiveSelection();
@@ -190,9 +210,9 @@ async function init() {
     subjects.forEach(subject => els.subject.appendChild(option(subject.id, subject.name)));
     if (subjects.length === 0) { setStatus('Er zijn nog geen vakken in het manifest opgenomen.'); return; }
 
-    if (viewMode === 'lesson') {
+    if (viewMode === 'theory' || viewMode === 'practice') {
       els.back.hidden = true;
-      openActiveLessonView();
+      openActivePresentationView();
       return;
     }
 
@@ -231,8 +251,8 @@ els.back.addEventListener('click', () => {
   restoreSelectorFromActive();
 });
 window.addEventListener('storage', event => {
-  if (event.storageArea === sessionStorage && event.key === storageKey && viewMode === 'lesson') {
-    openActiveLessonView();
+  if (event.storageArea === sessionStorage && event.key === storageKey && (viewMode === 'theory' || viewMode === 'practice')) {
+    openActivePresentationView();
   }
 });
 init();
