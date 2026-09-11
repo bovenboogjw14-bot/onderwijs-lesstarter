@@ -23,6 +23,12 @@ const els = {
   activeSubjectTitle: document.querySelector('#activeSubjectTitle'),
   drawingWrap: document.querySelector('#drawingSelectorWrap'),
   drawing: document.querySelector('#drawingSelect'),
+  lessonWorkView: document.querySelector('#lessonWorkView'),
+  lessonWorkTitle: document.querySelector('#lessonWorkTitle'),
+  lessonWorkLessonTitle: document.querySelector('#lessonWorkLessonTitle'),
+  lessonWorkSubjectTitle: document.querySelector('#lessonWorkSubjectTitle'),
+  lessonWorkBlocks: document.querySelector('#lessonWorkBlocks'),
+  lessonWorkFooter: document.querySelector('#lessonWorkFooter'),
   closeoutView: document.querySelector('#closeoutView'),
   closeoutTitle: document.querySelector('#closeoutTitle'),
   closeoutLessonTitle: document.querySelector('#closeoutLessonTitle'),
@@ -137,7 +143,7 @@ function refreshStartState() {
   if (currentChoiceIsActive()) {
     els.start.disabled = true;
     els.start.textContent = 'Les gestart ✓';
-    setStatus('Deze les is actief. Ga naar dia 2 voor theorie, dia 3 voor praktijk, dia 4 voor werktekeningen of dia 5 voor afsluiting.');
+    setStatus('Deze les is actief. Dia 2 = theorie, dia 3 = uitwerking lesbrief, dia 4 = praktijk, dia 5 = werktekening en dia 6 = afsluiting.');
   } else {
     els.start.disabled = false;
     els.start.textContent = 'Start les';
@@ -165,6 +171,7 @@ function normalizedPdfUrl(value) {
 }
 function hideContentViews() {
   els.lessonView.hidden = true;
+  els.lessonWorkView.hidden = true;
   els.closeoutView.hidden = true;
   els.drawingWrap.hidden = true;
   activeDrawingContext = null;
@@ -179,9 +186,7 @@ function showSelectionRequired() {
   showMessage('Kies vak en les op dia 1.');
 }
 function presentationForView(lesson, view) {
-  if (view === 'practice') {
-    return lesson?.presentations?.practiceTeacher || null;
-  }
+  if (view === 'practice') return lesson?.presentations?.practiceTeacher || null;
   if (view === 'theory') {
     if (lesson?.presentations?.theory) return lesson.presentations.theory;
     const legacyUrl = lesson?.gammaEmbedUrl || lesson?.launchUrl;
@@ -208,6 +213,7 @@ function showPresentation(subject, lesson, view) {
   els.lessonFrame.src = embedUrl;
   els.messageView.hidden = true;
   els.selectorView.hidden = true;
+  els.lessonWorkView.hidden = true;
   els.closeoutView.hidden = true;
   els.lessonView.hidden = false;
   return true;
@@ -255,41 +261,31 @@ function showDrawing(subject, lesson) {
 
   els.messageView.hidden = true;
   els.selectorView.hidden = true;
+  els.lessonWorkView.hidden = true;
   els.closeoutView.hidden = true;
   els.lessonView.hidden = false;
   openDrawingById(initial);
   return true;
 }
-function normalizedCloseoutBlocks(lesson) {
-  const blocks = Array.isArray(lesson?.closeout?.blocks) ? lesson.closeout.blocks : [];
+function normalizedBlocks(config, prefix) {
+  const blocks = Array.isArray(config?.blocks) ? config.blocks : [];
   return blocks
     .map((block, index) => ({
-      id: String(block?.id || `closeout-${index + 1}`),
+      id: String(block?.id || `${prefix}-${index + 1}`),
       title: String(block?.title || '').trim(),
       items: Array.isArray(block?.items) ? block.items.map(item => String(item || '').trim()).filter(Boolean) : []
     }))
     .filter(block => block.title && block.items.length > 0)
     .slice(0, 4);
 }
-function showCloseout(subject, lesson) {
-  const blocks = normalizedCloseoutBlocks(lesson);
-  if (blocks.length === 0) {
-    showMessage('Voor deze les is de afsluiting nog niet ingericht.');
-    return false;
-  }
-
-  const closeout = lesson.closeout || {};
-  els.closeoutTitle.textContent = String(closeout.title || 'Les afsluiten');
-  els.closeoutLessonTitle.textContent = lesson.title ? `${lesson.label || lesson.id} — ${lesson.title}` : (lesson.label || lesson.id);
-  els.closeoutSubjectTitle.textContent = subject.name;
-  els.closeoutBlocks.replaceChildren();
-
+function renderStructuredBlocks(container, blocks, cardClass, numberClass) {
+  container.replaceChildren();
   blocks.forEach((block, index) => {
     const article = document.createElement('article');
-    article.className = 'closeout-card';
+    article.className = cardClass;
 
     const number = document.createElement('span');
-    number.className = 'closeout-number';
+    number.className = numberClass;
     number.textContent = String(index + 1);
 
     const heading = document.createElement('h2');
@@ -303,8 +299,45 @@ function showCloseout(subject, lesson) {
     });
 
     article.append(number, heading, list);
-    els.closeoutBlocks.appendChild(article);
+    container.appendChild(article);
   });
+}
+function showLessonWork(subject, lesson) {
+  const lessonWork = lesson.lessonWork || {};
+  const blocks = normalizedBlocks(lessonWork, 'lessonwork');
+  if (blocks.length === 0) {
+    showMessage('Voor deze les is de uitwerking van de lesbrief nog niet ingericht.');
+    return false;
+  }
+
+  els.lessonWorkTitle.textContent = String(lessonWork.title || 'Uitwerking lesbrief');
+  els.lessonWorkLessonTitle.textContent = lesson.title ? `${lesson.label || lesson.id} — ${lesson.title}` : (lesson.label || lesson.id);
+  els.lessonWorkSubjectTitle.textContent = subject.name;
+  renderStructuredBlocks(els.lessonWorkBlocks, blocks, 'work-card', 'work-number');
+
+  const footer = String(lessonWork.footer || '').trim();
+  els.lessonWorkFooter.textContent = footer;
+  els.lessonWorkFooter.hidden = !footer;
+
+  els.messageView.hidden = true;
+  els.selectorView.hidden = true;
+  els.lessonView.hidden = true;
+  els.closeoutView.hidden = true;
+  els.lessonWorkView.hidden = false;
+  return true;
+}
+function showCloseout(subject, lesson) {
+  const closeout = lesson.closeout || {};
+  const blocks = normalizedBlocks(closeout, 'closeout');
+  if (blocks.length === 0) {
+    showMessage('Voor deze les is de afsluiting nog niet ingericht.');
+    return false;
+  }
+
+  els.closeoutTitle.textContent = String(closeout.title || 'Les afsluiten');
+  els.closeoutLessonTitle.textContent = lesson.title ? `${lesson.label || lesson.id} — ${lesson.title}` : (lesson.label || lesson.id);
+  els.closeoutSubjectTitle.textContent = subject.name;
+  renderStructuredBlocks(els.closeoutBlocks, blocks, 'closeout-card', 'closeout-number');
 
   const footer = String(closeout.footer || '').trim();
   els.closeoutFooter.textContent = footer;
@@ -313,6 +346,7 @@ function showCloseout(subject, lesson) {
   els.messageView.hidden = true;
   els.selectorView.hidden = true;
   els.lessonView.hidden = true;
+  els.lessonWorkView.hidden = true;
   els.closeoutView.hidden = false;
   return true;
 }
@@ -321,6 +355,10 @@ function openActiveContentView() {
   const { subject, lesson } = getLessonByIds(activeSelection.subjectId, activeSelection.lessonId);
   if (!subject || !lesson) {
     showSelectionRequired();
+    return;
+  }
+  if (viewMode === 'lessonwork') {
+    showLessonWork(subject, lesson);
     return;
   }
   if (viewMode === 'drawing') {
@@ -357,13 +395,14 @@ async function init() {
     subjects.forEach(subject => els.subject.appendChild(option(subject.id, subject.name)));
     if (subjects.length === 0) { setStatus('Er zijn nog geen vakken in het manifest opgenomen.'); return; }
 
-    if (viewMode === 'theory' || viewMode === 'practice' || viewMode === 'drawing' || viewMode === 'closeout') {
+    if (viewMode === 'theory' || viewMode === 'lessonwork' || viewMode === 'practice' || viewMode === 'drawing' || viewMode === 'closeout') {
       els.back.hidden = true;
       openActiveContentView();
       return;
     }
 
     els.messageView.hidden = true;
+    els.lessonWorkView.hidden = true;
     els.closeoutView.hidden = true;
     els.selectorView.hidden = false;
     restoreSelectorFromActive();
@@ -400,7 +439,7 @@ els.back.addEventListener('click', () => {
   restoreSelectorFromActive();
 });
 window.addEventListener('storage', event => {
-  if (event.storageArea === sessionStorage && event.key === storageKey && (viewMode === 'theory' || viewMode === 'practice' || viewMode === 'drawing' || viewMode === 'closeout')) {
+  if (event.storageArea === sessionStorage && event.key === storageKey && (viewMode === 'theory' || viewMode === 'lessonwork' || viewMode === 'practice' || viewMode === 'drawing' || viewMode === 'closeout')) {
     openActiveContentView();
   }
 });
