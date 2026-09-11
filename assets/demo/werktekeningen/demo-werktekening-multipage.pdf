@@ -1,0 +1,244 @@
+%PDF-1.3
+%ABCD ReportLab Generated PDF document (opensource)
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/Contents 10 0 R /MediaBox [ 0 0 841.8898 595.2756 ] /Parent 9 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+5 0 obj
+<<
+/Contents 11 0 R /MediaBox [ 0 0 841.8898 595.2756 ] /Parent 9 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+6 0 obj
+<<
+/Contents 12 0 R /MediaBox [ 0 0 841.8898 595.2756 ] /Parent 9 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+7 0 obj
+<<
+/PageMode /UseNone /Pages 9 0 R /Type /Catalog
+>>
+endobj
+8 0 obj
+<<
+/Author (anonymous) /CreationDate (D:20000101000000+00'00') /Creator (anonymous) /Keywords () /ModDate (D:20000101000000+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (unspecified) /Title (untitled) /Trapped /False
+>>
+endobj
+9 0 obj
+<<
+/Count 3 /Kids [ 4 0 R 5 0 R 6 0 R ] /Type /Pages
+>>
+endobj
+10 0 obj
+<<
+/Length 879
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F2 18 Tf 21.6 TL ET
+BT 1 0 0 1 40 550.2756 Tm (TECHNISCHE WERKTEKENING - TEST - PAGINA 1/3) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 40 532.2756 Tm (Technisch prototype - geen lesinhoud - alleen voor PDF-scrolltest) Tj T* ET
+n 30 30 781.8898 535.2756 re S
+n 606.8898 30 205 72 re S
+BT /F1 9 Tf 10.8 TL ET
+BT 1 0 0 1 616.8898 82 Tm (PROJECT: Dronetechniek 1) Tj T* ET
+BT 1 0 0 1 616.8898 68 Tm (TEKENING: DEMO-01) Tj T* ET
+BT 1 0 0 1 616.8898 54 Tm (SCHAAL: N.V.T.   VERSIE: TEST) Tj T* ET
+BT 1 0 0 1 616.8898 40 Tm (STATUS: TECHNISCH PROTOTYPE) Tj T* ET
+2 w
+n 120 160 360 220 re S
+n 120 160 m 480 380 l S
+n 120 380 m 480 160 l S
+BT /F2 14 Tf 16.8 TL ET
+BT 1 0 0 1 259.554 405 Tm (OVERZICHT) Tj T* ET
+1 w
+n 120 135 m 480 135 l S
+n 120 130 m 120 140 l S
+n 480 130 m 480 140 l S
+BT 1 0 0 1 238.54 120 Tm (360 mm \(testmaat\)) Tj T* ET
+ 
+endstream
+endobj
+11 0 obj
+<<
+/Length 1757
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F2 18 Tf 21.6 TL ET
+BT 1 0 0 1 40 550.2756 Tm (TECHNISCHE WERKTEKENING - TEST - PAGINA 2/3) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 40 532.2756 Tm (Technisch prototype - geen lesinhoud - alleen voor PDF-scrolltest) Tj T* ET
+n 30 30 781.8898 535.2756 re S
+n 606.8898 30 205 72 re S
+BT /F1 9 Tf 10.8 TL ET
+BT 1 0 0 1 616.8898 82 Tm (PROJECT: Dronetechniek 1) Tj T* ET
+BT 1 0 0 1 616.8898 68 Tm (TEKENING: DEMO-02) Tj T* ET
+BT 1 0 0 1 616.8898 54 Tm (SCHAAL: N.V.T.   VERSIE: TEST) Tj T* ET
+BT 1 0 0 1 616.8898 40 Tm (STATUS: TECHNISCH PROTOTYPE) Tj T* ET
+2 w
+n
+410 270 m
+410 330.7513 360.7513 380 300 380 c
+239.2487 380 190 330.7513 190 270 c
+190 209.2487 239.2487 160 300 160 c
+360.7513 160 410 209.2487 410 270 c
+S
+n
+328 270 m
+328 285.464 315.464 298 300 298 c
+284.536 298 272 285.464 272 270 c
+272 254.536 284.536 242 300 242 c
+315.464 242 328 254.536 328 270 c
+S
+n
+380 340 m
+380 345.5228 375.5228 350 370 350 c
+364.4772 350 360 345.5228 360 340 c
+360 334.4772 364.4772 330 370 330 c
+375.5228 330 380 334.4772 380 340 c
+S
+n
+240 340 m
+240 345.5228 235.5228 350 230 350 c
+224.4772 350 220 345.5228 220 340 c
+220 334.4772 224.4772 330 230 330 c
+235.5228 330 240 334.4772 240 340 c
+S
+n
+380 200 m
+380 205.5228 375.5228 210 370 210 c
+364.4772 210 360 205.5228 360 200 c
+360 194.4772 364.4772 190 370 190 c
+375.5228 190 380 194.4772 380 200 c
+S
+n
+240 200 m
+240 205.5228 235.5228 210 230 210 c
+224.4772 210 220 205.5228 220 200 c
+220 194.4772 224.4772 190 230 190 c
+235.5228 190 240 194.4772 240 200 c
+S
+BT /F2 14 Tf 16.8 TL ET
+BT 1 0 0 1 267.723 405 Tm (DETAIL A) Tj T* ET
+1 w
+n 190 135 m 410 135 l S
+n 190 130 m 190 140 l S
+n 410 130 m 410 140 l S
+BT 1 0 0 1 206.641 120 Tm (Diameter 220 mm \(testmaat\)) Tj T* ET
+ 
+endstream
+endobj
+12 0 obj
+<<
+/Length 1393
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F2 18 Tf 21.6 TL ET
+BT 1 0 0 1 40 550.2756 Tm (TECHNISCHE WERKTEKENING - TEST - PAGINA 3/3) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 40 532.2756 Tm (Technisch prototype - geen lesinhoud - alleen voor PDF-scrolltest) Tj T* ET
+n 30 30 781.8898 535.2756 re S
+n 606.8898 30 205 72 re S
+BT /F1 9 Tf 10.8 TL ET
+BT 1 0 0 1 616.8898 82 Tm (PROJECT: Dronetechniek 1) Tj T* ET
+BT 1 0 0 1 616.8898 68 Tm (TEKENING: DEMO-03) Tj T* ET
+BT 1 0 0 1 616.8898 54 Tm (SCHAAL: N.V.T.   VERSIE: TEST) Tj T* ET
+BT 1 0 0 1 616.8898 40 Tm (STATUS: TECHNISCH PROTOTYPE) Tj T* ET
+2 w
+n 160 170 m 440 170 l S
+n 440 170 m 400 360 l S
+n 400 360 m 200 360 l S
+n 200 360 m 160 170 l S
+BT /F2 14 Tf 16.8 TL ET
+BT 1 0 0 1 224.162 405 Tm (MONTAGEVOLGORDE) Tj T* ET
+BT /F1 12 Tf 14.4 TL ET
+n
+228 260 m
+228 269.9411 219.9411 278 210 278 c
+200.0589 278 192 269.9411 192 260 c
+192 250.0589 200.0589 242 210 242 c
+219.9411 242 228 250.0589 228 260 c
+S
+BT 1 0 0 1 206.664 256 Tm (1) Tj T* ET
+n
+318 320 m
+318 329.9411 309.9411 338 300 338 c
+290.0589 338 282 329.9411 282 320 c
+282 310.0589 290.0589 302 300 302 c
+309.9411 302 318 310.0589 318 320 c
+S
+BT 1 0 0 1 296.664 316 Tm (2) Tj T* ET
+n
+408 260 m
+408 269.9411 399.9411 278 390 278 c
+380.0589 278 372 269.9411 372 260 c
+372 250.0589 380.0589 242 390 242 c
+399.9411 242 408 250.0589 408 260 c
+S
+BT 1 0 0 1 386.664 256 Tm (3) Tj T* ET
+ 
+endstream
+endobj
+xref
+0 13
+0000000000 65535 f 
+0000000061 00000 n 
+0000000102 00000 n 
+0000000209 00000 n 
+0000000321 00000 n 
+0000000525 00000 n 
+0000000729 00000 n 
+0000000933 00000 n 
+0000001001 00000 n 
+0000001262 00000 n 
+0000001333 00000 n 
+0000002263 00000 n 
+0000004072 00000 n 
+trailer
+<<
+/ID 
+[<1c178198fbdfa51b25995d89d4102043><1c178198fbdfa51b25995d89d4102043>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 8 0 R
+/Root 7 0 R
+/Size 13
+>>
+startxref
+5517
+%%EOF
