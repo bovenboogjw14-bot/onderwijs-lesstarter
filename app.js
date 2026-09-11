@@ -23,6 +23,12 @@ const els = {
   activeSubjectTitle: document.querySelector('#activeSubjectTitle'),
   drawingWrap: document.querySelector('#drawingSelectorWrap'),
   drawing: document.querySelector('#drawingSelect'),
+  closeoutView: document.querySelector('#closeoutView'),
+  closeoutTitle: document.querySelector('#closeoutTitle'),
+  closeoutLessonTitle: document.querySelector('#closeoutLessonTitle'),
+  closeoutSubjectTitle: document.querySelector('#closeoutSubjectTitle'),
+  closeoutBlocks: document.querySelector('#closeoutBlocks'),
+  closeoutFooter: document.querySelector('#closeoutFooter'),
   back: document.querySelector('#backButton')
 };
 
@@ -131,7 +137,7 @@ function refreshStartState() {
   if (currentChoiceIsActive()) {
     els.start.disabled = true;
     els.start.textContent = 'Les gestart ✓';
-    setStatus('Deze les is actief. Ga naar dia 2 voor theorie, dia 3 voor praktijk of dia 4 voor werktekeningen.');
+    setStatus('Deze les is actief. Ga naar dia 2 voor theorie, dia 3 voor praktijk, dia 4 voor werktekeningen of dia 5 voor afsluiting.');
   } else {
     els.start.disabled = false;
     els.start.textContent = 'Start les';
@@ -157,11 +163,15 @@ function normalizedPdfUrl(value) {
     return url.protocol === 'https:' && sameOrigin && pdfPath ? url.href : null;
   } catch { return null; }
 }
-function showMessage(message) {
-  els.selectorView.hidden = true;
+function hideContentViews() {
   els.lessonView.hidden = true;
+  els.closeoutView.hidden = true;
   els.drawingWrap.hidden = true;
   activeDrawingContext = null;
+}
+function showMessage(message) {
+  els.selectorView.hidden = true;
+  hideContentViews();
   els.messageText.textContent = message;
   els.messageView.hidden = false;
 }
@@ -198,6 +208,7 @@ function showPresentation(subject, lesson, view) {
   els.lessonFrame.src = embedUrl;
   els.messageView.hidden = true;
   els.selectorView.hidden = true;
+  els.closeoutView.hidden = true;
   els.lessonView.hidden = false;
   return true;
 }
@@ -244,8 +255,65 @@ function showDrawing(subject, lesson) {
 
   els.messageView.hidden = true;
   els.selectorView.hidden = true;
+  els.closeoutView.hidden = true;
   els.lessonView.hidden = false;
   openDrawingById(initial);
+  return true;
+}
+function normalizedCloseoutBlocks(lesson) {
+  const blocks = Array.isArray(lesson?.closeout?.blocks) ? lesson.closeout.blocks : [];
+  return blocks
+    .map((block, index) => ({
+      id: String(block?.id || `closeout-${index + 1}`),
+      title: String(block?.title || '').trim(),
+      items: Array.isArray(block?.items) ? block.items.map(item => String(item || '').trim()).filter(Boolean) : []
+    }))
+    .filter(block => block.title && block.items.length > 0)
+    .slice(0, 4);
+}
+function showCloseout(subject, lesson) {
+  const blocks = normalizedCloseoutBlocks(lesson);
+  if (blocks.length === 0) {
+    showMessage('Voor deze les is de afsluiting nog niet ingericht.');
+    return false;
+  }
+
+  const closeout = lesson.closeout || {};
+  els.closeoutTitle.textContent = String(closeout.title || 'Les afsluiten');
+  els.closeoutLessonTitle.textContent = lesson.title ? `${lesson.label || lesson.id} — ${lesson.title}` : (lesson.label || lesson.id);
+  els.closeoutSubjectTitle.textContent = subject.name;
+  els.closeoutBlocks.replaceChildren();
+
+  blocks.forEach((block, index) => {
+    const article = document.createElement('article');
+    article.className = 'closeout-card';
+
+    const number = document.createElement('span');
+    number.className = 'closeout-number';
+    number.textContent = String(index + 1);
+
+    const heading = document.createElement('h2');
+    heading.textContent = block.title;
+
+    const list = document.createElement('ul');
+    block.items.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      list.appendChild(li);
+    });
+
+    article.append(number, heading, list);
+    els.closeoutBlocks.appendChild(article);
+  });
+
+  const footer = String(closeout.footer || '').trim();
+  els.closeoutFooter.textContent = footer;
+  els.closeoutFooter.hidden = !footer;
+
+  els.messageView.hidden = true;
+  els.selectorView.hidden = true;
+  els.lessonView.hidden = true;
+  els.closeoutView.hidden = false;
   return true;
 }
 function openActiveContentView() {
@@ -257,6 +325,10 @@ function openActiveContentView() {
   }
   if (viewMode === 'drawing') {
     showDrawing(subject, lesson);
+    return;
+  }
+  if (viewMode === 'closeout') {
+    showCloseout(subject, lesson);
     return;
   }
   showPresentation(subject, lesson, viewMode);
@@ -285,13 +357,14 @@ async function init() {
     subjects.forEach(subject => els.subject.appendChild(option(subject.id, subject.name)));
     if (subjects.length === 0) { setStatus('Er zijn nog geen vakken in het manifest opgenomen.'); return; }
 
-    if (viewMode === 'theory' || viewMode === 'practice' || viewMode === 'drawing') {
+    if (viewMode === 'theory' || viewMode === 'practice' || viewMode === 'drawing' || viewMode === 'closeout') {
       els.back.hidden = true;
       openActiveContentView();
       return;
     }
 
     els.messageView.hidden = true;
+    els.closeoutView.hidden = true;
     els.selectorView.hidden = false;
     restoreSelectorFromActive();
     if (demoMode && !activeSelection.subjectId) {
@@ -321,15 +394,13 @@ els.start.addEventListener('click', () => {
 els.drawing.addEventListener('change', () => openDrawingById(els.drawing.value));
 els.back.addEventListener('click', () => {
   els.lessonFrame.src = 'about:blank';
-  els.lessonView.hidden = true;
+  hideContentViews();
   els.messageView.hidden = true;
-  els.drawingWrap.hidden = true;
-  activeDrawingContext = null;
   els.selectorView.hidden = false;
   restoreSelectorFromActive();
 });
 window.addEventListener('storage', event => {
-  if (event.storageArea === sessionStorage && event.key === storageKey && (viewMode === 'theory' || viewMode === 'practice' || viewMode === 'drawing')) {
+  if (event.storageArea === sessionStorage && event.key === storageKey && (viewMode === 'theory' || viewMode === 'practice' || viewMode === 'drawing' || viewMode === 'closeout')) {
     openActiveContentView();
   }
 });
