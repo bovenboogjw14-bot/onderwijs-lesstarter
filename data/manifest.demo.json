@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.1",
+  "schemaVersion": "1.2",
   "demo": true,
   "subjects": [
     {
@@ -38,6 +38,16 @@
               "provider": "gamma",
               "embedUrl": "https://gamma.app/embed/7f0bupjdi38lte6"
             }
+          },
+          "documents": {
+            "technicalDrawings": [
+              {
+                "id": "wt-01",
+                "title": "Multipage werktekening - technische test",
+                "version": "TEST",
+                "pdfUrl": "./assets/demo/werktekeningen/demo-werktekening-multipage.pdf"
+              }
+            ]
           }
         }
       ]
