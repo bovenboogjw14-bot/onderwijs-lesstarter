@@ -1,31 +1,32 @@
 {
   "schemaVersion": "1.4",
-  "demo": true,
   "subjects": [
     {
-      "id": "demo-vak",
-      "name": "Demo-vak",
+      "id": "dronetechniek-1",
+      "name": "Dronetechniek 1",
       "lessons": [
         {
-          "id": "demo-les-01",
+          "id": "dt1-l01",
           "label": "Les 01",
-          "title": "Technische demonstratie",
+          "title": "Veilig starten met drones",
           "sourceRanges": [
             {
-              "source": "Demo-bron A",
-              "chapter": "A",
-              "paragraphFrom": "A.1",
-              "paragraphTo": "A.3",
-              "pageFrom": 1,
-              "pageTo": 5
+              "source": "Training Dronevliegen A1-A3.docx",
+              "pageFrom": 18,
+              "pageTo": 19
             },
             {
-              "source": "Demo-bron B",
-              "chapter": "B",
-              "paragraphFrom": "B.2",
-              "paragraphTo": "B.2",
-              "pageFrom": 10,
-              "pageTo": 12
+              "source": "Training Dronevliegen A1-A3.docx",
+              "pageFrom": 30,
+              "pageTo": 32
+            },
+            {
+              "source": "Training Dronevliegen A1-A3.docx — dronesysteem/controller/verbinding (vanaf p. 58)"
+            },
+            {
+              "source": "Training Dronevliegen A1-A3.docx",
+              "pageFrom": 76,
+              "pageTo": 76
             }
           ],
           "lessonWork": {
@@ -35,73 +36,58 @@
                 "id": "task",
                 "title": "Aan het werk",
                 "items": [
-                  "Technisch prototype — hier komt later welke vragen of onderdelen van de lesbrief je maakt."
+                  "Werk aan de opdrachten uit de lesbrief die de docent aanwijst.",
+                  "Schrijf je antwoorden op het gezamenlijke antwoordblad."
                 ]
               },
               {
                 "id": "support",
                 "title": "Gebruik",
                 "items": [
-                  "Technisch prototype — hier komen later de bron, boekpagina's en eventuele ondersteuning voor deze les."
+                  "Gebruik de lesbrief als hoofdroute.",
+                  "Gebruik het NT2-ondersteuningsblad naast dezelfde lesbrief als je taalsteun nodig hebt."
                 ]
               },
               {
                 "id": "ready",
                 "title": "Klaar?",
                 "items": [
-                  "Technisch prototype — hier komt later de controle of volgende stap voordat de praktijk begint."
+                  "Kun je de vier vaste controlevragen zonder bron terughalen?"
                 ]
               }
-            ],
-            "footer": "TECHNISCH PROTOTYPE — GEEN DEFINITIEVE LESINHOUD"
+            ]
           },
-          "gammaEmbedUrl": "https://gamma.app/embed/nraavysajolg242",
           "presentations": {
             "theory": {
               "provider": "gamma",
-              "embedUrl": "https://gamma.app/embed/nraavysajolg242"
+              "embedUrl": "https://gamma.app/embed/iwa281dt55kzy69"
             },
             "practiceTeacher": {
               "provider": "gamma",
-              "embedUrl": "https://gamma.app/embed/7f0bupjdi38lte6"
+              "embedUrl": "https://gamma.app/embed/69thz93pfi0bkpo"
             }
-          },
-          "documents": {
-            "technicalDrawings": [
-              {
-                "id": "wt-01",
-                "title": "Multipage werktekening - technische test",
-                "version": "TEST",
-                "pdfUrl": "./assets/demo/werktekeningen/demo-werktekening-multipage.pdf"
-              }
-            ]
           },
           "closeout": {
             "title": "Les afsluiten",
             "blocks": [
               {
+                "id": "reflection",
+                "title": "Terugblik",
+                "items": [
+                  "Welke fout zou jij voortaan nooit overslaan?"
+                ]
+              },
+              {
                 "id": "cleanup",
                 "title": "Opruimen",
                 "items": [
-                  "Technisch prototype — hier komen later de opruimstappen voor deze les."
-                ]
-              },
-              {
-                "id": "checkout",
-                "title": "Controle / checkout",
-                "items": [
-                  "Technisch prototype — hier komen later de controlepunten voor deze les."
-                ]
-              },
-              {
-                "id": "extra",
-                "title": "Extra afsluiting",
-                "items": [
-                  "Technisch prototype — dit blok verschijnt alleen als de les extra afsluitstappen nodig heeft."
+                  "Schakel gecontroleerd uit.",
+                  "Controleer drone, accu en controller.",
+                  "Ruim materiaal en werkplek op.",
+                  "Meld schade of afwijkingen."
                 ]
               }
-            ],
-            "footer": "TECHNISCH PROTOTYPE — GEEN DEFINITIEVE LESINHOUD"
+            ]
           }
         }
       ]
