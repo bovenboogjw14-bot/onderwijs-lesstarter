@@ -4,7 +4,93 @@
     {
       "id": "dronetechniek-1",
       "name": "Dronetechniek 1",
-      "lessons": []
+      "lessons": [
+        {
+          "id": "dt1-l01",
+          "label": "Les 01",
+          "title": "Veilig starten met drones",
+          "sourceRanges": [
+            {
+              "source": "Training Dronevliegen A1-A3.docx",
+              "pageFrom": 18,
+              "pageTo": 19
+            },
+            {
+              "source": "Training Dronevliegen A1-A3.docx",
+              "pageFrom": 30,
+              "pageTo": 32
+            },
+            {
+              "source": "Training Dronevliegen A1-A3.docx — dronesysteem/controller/verbinding (vanaf p. 58)"
+            },
+            {
+              "source": "Training Dronevliegen A1-A3.docx",
+              "pageFrom": 76,
+              "pageTo": 76
+            }
+          ],
+          "lessonWork": {
+            "title": "Uitwerking lesbrief",
+            "blocks": [
+              {
+                "id": "task",
+                "title": "Aan het werk",
+                "items": [
+                  "Werk aan de opdrachten uit de lesbrief die de docent aanwijst.",
+                  "Schrijf je antwoorden op het gezamenlijke antwoordblad."
+                ]
+              },
+              {
+                "id": "support",
+                "title": "Gebruik",
+                "items": [
+                  "Gebruik de lesbrief als hoofdroute.",
+                  "Gebruik het NT2-ondersteuningsblad naast dezelfde lesbrief als je taalsteun nodig hebt."
+                ]
+              },
+              {
+                "id": "ready",
+                "title": "Klaar?",
+                "items": [
+                  "Kun je de vier vaste controlevragen zonder bron terughalen?"
+                ]
+              }
+            ]
+          },
+          "presentations": {
+            "theory": {
+              "provider": "gamma",
+              "embedUrl": "https://gamma.app/embed/iwa281dt55kzy69"
+            },
+            "practiceTeacher": {
+              "provider": "gamma",
+              "embedUrl": "https://gamma.app/embed/69thz93pfi0bkpo"
+            }
+          },
+          "closeout": {
+            "title": "Les afsluiten",
+            "blocks": [
+              {
+                "id": "reflection",
+                "title": "Terugblik",
+                "items": [
+                  "Welke fout zou jij voortaan nooit overslaan?"
+                ]
+              },
+              {
+                "id": "cleanup",
+                "title": "Opruimen",
+                "items": [
+                  "Schakel gecontroleerd uit.",
+                  "Controleer drone, accu en controller.",
+                  "Ruim materiaal en werkplek op.",
+                  "Meld schade of afwijkingen."
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }
