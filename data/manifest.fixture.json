@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.4",
+  "demo": true,
+  "subjects": [
+    {
+      "id": "demo-vak",
+      "name": "Demo-vak",
+      "lessons": [
+        {
+          "id": "demo-les-01",
+          "label": "Les 01",
+          "title": "Technische demonstratie",
+          "sourceRanges": [
+            {
+              "source": "Demo-bron A",
+              "chapter": "A",
+              "paragraphFrom": "A.1",
+              "paragraphTo": "A.3",
+              "pageFrom": 1,
+              "pageTo": 5
+            },
+            {
+              "source": "Demo-bron B",
+              "chapter": "B",
+              "paragraphFrom": "B.2",
+              "paragraphTo": "B.2",
+              "pageFrom": 10,
+              "pageTo": 12
+            }
+          ],
+          "lessonWork": {
+            "title": "Uitwerking lesbrief",
+            "blocks": [
+              {
+                "id": "task",
+                "title": "Aan het werk",
+                "items": [
+                  "Technisch prototype — hier komt later welke vragen of onderdelen van de lesbrief je maakt."
+                ]
+              },
+              {
+                "id": "support",
+                "title": "Gebruik",
+                "items": [
+                  "Technisch prototype — hier komen later de bron, boekpagina's en eventuele ondersteuning voor deze les."
+                ]
+              },
+              {
+                "id": "ready",
+                "title": "Klaar?",
+                "items": [
+                  "Technisch prototype — hier komt later de controle of volgende stap voordat de praktijk begint."
+                ]
+              }
+            ],
+            "footer": "TECHNISCH PROTOTYPE — GEEN DEFINITIEVE LESINHOUD"
+          },
+          "gammaEmbedUrl": "https://gamma.app/embed/nraavysajolg242",
+          "presentations": {
+            "theory": {
+              "provider": "gamma",
+              "embedUrl": "https://gamma.app/embed/nraavysajolg242"
+            },
+            "practiceTeacher": {
+              "provider": "gamma",
+              "embedUrl": "https://gamma.app/embed/7f0bupjdi38lte6"
+            }
+          },
+          "documents": {
+            "technicalDrawings": [
+              {
+                "id": "wt-01",
+                "title": "Multipage werktekening - technische test",
+                "version": "TEST",
+                "pdfUrl": "./assets/demo/werktekeningen/demo-werktekening-multipage.pdf"
+              }
+            ]
+          },
+          "closeout": {
+            "title": "Les afsluiten",
+            "blocks": [
+              {
+                "id": "cleanup",
+                "title": "Opruimen",
+                "items": [
+                  "Technisch prototype — hier komen later de opruimstappen voor deze les."
+                ]
+              },
+              {
+                "id": "checkout",
+                "title": "Controle / checkout",
+                "items": [
+                  "Technisch prototype — hier komen later de controlepunten voor deze les."
+                ]
+              },
+              {
+                "id": "extra",
+                "title": "Extra afsluiting",
+                "items": [
+                  "Technisch prototype — dit blok verschijnt alleen als de les extra afsluitstappen nodig heeft."
+                ]
+              }
+            ],
+            "footer": "TECHNISCH PROTOTYPE — GEEN DEFINITIEVE LESINHOUD"
+          }
+        }
+      ]
+    }
+  ]
+}
